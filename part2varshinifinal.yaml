@@ -1,0 +1,30 @@
+---
+- hosts: apacheserver
+  become: true
+  become_user: root
+  tasks: 
+  - name: Install latest version of Apache
+    yum: name=httpd update_cache=yes state=latest 
+  - name: Create content
+    copy: 
+      content: "welcom !! sree varshini" 
+      dest: /var/www/html/index.html 
+                             
+- hosts: webclients
+  become: true
+  become_user: root
+  tasks:
+  - name: Copy the file from apache to webclient
+    #tags: sync-push
+    synchronize:
+      # mode: push
+       src: /var/www/html/index.html
+       dest: /home/ec2-user/
+    delegate_to: 172.31.25.159
+
+- hosts: 127.0.0.1 
+  become: true 
+  become_user: root 
+  tasks: 
+    - name: Copy the file from
+      shell: scp ec2-user@172.31.13.16:/home/ec2-user/index.html /etc/ansible/
