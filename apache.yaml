@@ -23,17 +23,7 @@
   - name: Hosting Webpage on Webclients
     service: name=httpd state=restarted
     
-##Copying file from 
-- hosts: apacheserver
-  become: true
-  become_user: root
-  tasks: 
-  - name: Install latest version of Apache
-    yum: name=httpd update_cache=yes state=latest 
-  - name: Create content
-    copy: 
-      content: "I am Gowtham" 
-      dest: /var/www/html/index.html 
+##Using Synchronization and copying file from Webserver to Webclient
                              
 - hosts: webclients
   become: true
@@ -46,6 +36,14 @@
        src: /var/www/html/index.html
        dest: /etc/ansibleclient1/
     delegate_to: 172.31.8.4
+    
+## 
+- hosts: 127.0.0.1 
+  become: true 
+  become_user: root 
+  tasks: 
+    - name: Copy the file from
+      shell: scp ec2-user@172.31.13.16:/etc/ansibleclient1/index.html /var/www/html/
    
   ## Started the Operation of installing, running, and creating database in MySQl
 - hosts: webserver 
