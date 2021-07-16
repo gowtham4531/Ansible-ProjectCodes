@@ -45,7 +45,7 @@
        mode: pull
        src: /var/www/html/index.html
        dest: /etc/ansibleclient1/
-    delegate_to: 172.31.25.159
+    delegate_to: 172.31.8.4
    
   ## Started the Operation of installing, running, and creating database in MySQl
 - hosts: webserver 
