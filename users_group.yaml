@@ -1,0 +1,27 @@
+---
+- hosts: webclients
+  become: true
+  become_user: root
+  name: Create group and users
+  tasks:
+  - name: Create Group 
+    group: 
+      name: "{{ item }}"
+      state: present
+    with_items: 
+    - Automation
+    - Devops
+
+  - name: Create User-1 
+    user: 
+      name: AynRand 
+      state: present
+      groups: 
+      - Automation
+
+  - name: Create User-2
+    user:
+      name: RamGopal
+      state: present
+      groups:
+      - Automation

@@ -1,0 +1,23 @@
+---
+- hosts: apacheserver
+  become: true
+  become_user: root
+  tasks: 
+  - name: Install latest version of Apache
+    yum: name=httpd update_cache=yes state=latest 
+  - name: Create content
+    copy: 
+      content: "I am Gowtham" 
+      dest: /var/www/html/index.html 
+                             
+- hosts: webclients
+  become: true
+  become_user: root
+  tasks:
+  - name: Copy the file from apache to webclient
+    tags: sync-pull
+    synchronize:
+       mode: pull
+       src: /var/www/html/index.html
+       dest: /etc/ansibleclient1/
+    delegate_to: 172.31.25.159
