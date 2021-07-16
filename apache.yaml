@@ -7,21 +7,6 @@
     yum: name=httpd state=present 
   - name: Start httpd
     service: name=httpd state=started
- 
-- hosts: webclients
-  become: true
-  become_user: root
-  tasks:
-  - name: Install httpd
-    yum: name=httpd state=present
-  - name: Start httpd
-    service: name=httpd state=started
-  - name: Copy HTML file from Webserver
-    copy: src=/var/www/html/index.html dest=/var/www/html/
-    notify: Hosting Webpage on Webclients
-  handlers:
-  - name: Hosting Webpage on Webclients
-    service: name=httpd state=restarted
     
 ##Using Synchronization and copying file from Webserver to Webclient
                              
